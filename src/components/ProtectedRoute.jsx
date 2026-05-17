@@ -3,11 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore';
 
 export default function ProtectedRoute({ requireAdmin = true }) {
-  const { session, isAdmin, loading, initialize } = useAuthStore();
-
-  useEffect(() => {
-    initialize();
-  }, [initialize]);
+  const { session, isAdmin, loading } = useAuthStore();
 
   if (loading) {
     return (

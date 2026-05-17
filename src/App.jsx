@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Storefront from './pages/Storefront';
 import Admin from './pages/Admin';
@@ -7,8 +7,15 @@ import CareGuide from './pages/CareGuide';
 import OurStory from './pages/OurStory';
 import ProtectedRoute from './components/ProtectedRoute';
 import AccountModal from './components/AccountModal';
+import { useAuthStore } from './store/useAuthStore';
 
 function App() {
+  const initializeAuth = useAuthStore((state) => state.initialize);
+
+  useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
+
   return (
     <BrowserRouter>
       <AccountModal />
