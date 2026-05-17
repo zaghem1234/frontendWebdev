@@ -15,8 +15,8 @@ export default function TopNavBar() {
         
         <div className="hidden md:flex items-center gap-gutter">
           <Link to="/" className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors">Shop</Link>
-          <Link to="#" className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors">Care Guides</Link>
-          <Link to="#" className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors">Our Story</Link>
+          <Link to="/care-guide" className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors">Care Guides</Link>
+          <Link to="/our-story" className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors">Our Story</Link>
         </div>
         
         <div className="flex items-center gap-4">

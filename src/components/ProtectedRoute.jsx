@@ -18,11 +18,11 @@ export default function ProtectedRoute({ requireAdmin = true }) {
   }
 
   if (!session) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   if (requireAdmin && !isAdmin) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   return <Outlet />;

@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Storefront from './pages/Storefront';
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
+import CareGuide from './pages/CareGuide';
+import OurStory from './pages/OurStory';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -10,6 +12,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Storefront />} />
+        <Route path="/care-guide" element={<CareGuide />} />
+        <Route path="/our-story" element={<OurStory />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         
         {/* Protected Admin Routes */}
