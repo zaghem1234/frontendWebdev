@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { X, Trash2, Plus, Minus, CheckCircle, ArrowLeft, CreditCard, DollarSign, Smartphone } from 'lucide-react';
 import { useCartStore } from '../store/useCartStore';
+import { useAuthStore } from '../store/useAuthStore';
 import { supabase } from '../lib/supabase';
 
 export default function CheckoutDrawer() {
   const { isOpen, closeCart, cartItems, removeItem, updateQuantity, getCartTotal, clearCart } = useCartStore();
+  const { profile } = useAuthStore();
 
   // Wizard States: 'cart' | 'checkout' | 'success'
   const [step, setStep] = useState('cart');
@@ -38,7 +40,7 @@ export default function CheckoutDrawer() {
       const { data: orderData, error: orderError } = await supabase
         .from('orders')
         .insert({
-          customer_id: null, // Guest checkout
+          customer_id: profile?.id || null, // Authenticated customer ID or guest null
           subtotal: subtotal,
           status: 'Pending',
           customer_email: email,
@@ -328,25 +330,67 @@ export default function CheckoutDrawer() {
 
                   {/* Advance Online Payment Guidance Details */}
                   {paymentMethod !== 'COD' && (
-                    <div className="glass-card p-4 bg-secondary-container/20 border border-secondary-container rounded-xl space-y-3 animate-fade-in">
-                      <p className="text-[11px] text-on-surface-variant leading-relaxed">
-                        To pay via <strong>{paymentMethod}</strong>, please transfer the exact bill amount <strong>${totalAmount.toFixed(2)}</strong> to our account:
-                      </p>
-                      <div className="bg-white/60 p-2.5 rounded-lg border border-outline-variant/30 text-xs font-mono text-center">
-                        <div>Account ID: <strong>{paymentMethod === 'EasyPaisa' ? (localStorage.getItem('plant_beauty_easypaisa') || '0300-1234567') : (localStorage.getItem('plant_beauty_jazzcash') || '0300-1234567')}</strong></div>
-                        <div className="text-[10px] mt-0.5 text-on-surface-variant">Name: Plant Beauty Boutique</div>
-                      </div>
-                      <div>
-                        <label className="block text-[10px] font-bold text-on-surface mb-1">Sender's Account Name / Reference ID</label>
-                        <input 
-                          type="text"
-                          value={onlineSender}
-                          onChange={(e) => setOnlineSender(e.target.value)}
-                          placeholder="Sender Name or Transaction ID"
-                          className="w-full px-2.5 py-1.5 bg-white border border-outline-variant rounded-md text-xs focus:outline-none"
-                          required
-                        />
-                      </div>
+                    <div className="glass-card p-4 bg-secondary-container/20 border border-secondary-container rounded-xl space-y-3 animate-fade-in text-left">
+                      {paymentMethod === 'Stripe' ? (
+                        <>
+                          <p className="text-[11px] text-on-surface-variant leading-relaxed">
+                            Pay securely using your **Credit/Debit Card** via Stripe:
+                          </p>
+                          <div className="space-y-2">
+                            <div>
+                              <label className="block text-[9px] font-bold text-on-surface uppercase tracking-wider mb-1">Card Number</label>
+                              <input 
+                                type="text"
+                                placeholder="4242 •••• •••• 4242"
+                                className="w-full px-2.5 py-1.5 bg-white border border-outline-variant rounded-md text-xs focus:outline-none"
+                                required
+                              />
+                            </div>
+                            <div className="grid grid-cols-2 gap-2">
+                              <div>
+                                <label className="block text-[9px] font-bold text-on-surface uppercase tracking-wider mb-1">Expiry Date</label>
+                                <input 
+                                  type="text"
+                                  placeholder="MM/YY"
+                                  className="w-full px-2.5 py-1.5 bg-white border border-outline-variant rounded-md text-xs focus:outline-none"
+                                  required
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-[9px] font-bold text-on-surface uppercase tracking-wider mb-1">CVV / CVC</label>
+                                <input 
+                                  type="password"
+                                  placeholder="•••"
+                                  maxLength="4"
+                                  className="w-full px-2.5 py-1.5 bg-white border border-outline-variant rounded-md text-xs focus:outline-none"
+                                  required
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-[11px] text-on-surface-variant leading-relaxed">
+                            To pay via <strong>{paymentMethod}</strong>, please transfer the exact bill amount <strong>${totalAmount.toFixed(2)}</strong> to our account:
+                          </p>
+                          <div className="bg-white/60 p-2.5 rounded-lg border border-outline-variant/30 text-xs font-mono text-center">
+                            <div>Account ID: <strong>{paymentMethod === 'EasyPaisa' ? (localStorage.getItem('plant_beauty_easypaisa') || '0300-1234567') : (localStorage.getItem('plant_beauty_jazzcash') || '0300-1234567')}</strong></div>
+                            <div className="text-[10px] mt-0.5 text-on-surface-variant">Name: Plant Beauty Boutique</div>
+                          </div>
+                          <div>
+                            <label className="block text-[10px] font-bold text-on-surface mb-1">Sender's Account Name / Reference ID</label>
+                            <input 
+                              type="text"
+                              value={onlineSender}
+                              onChange={(e) => setOnlineSender(e.target.value)}
+                              placeholder="Sender Name or Transaction ID"
+                              className="w-full px-2.5 py-1.5 bg-white border border-outline-variant rounded-md text-xs focus:outline-none"
+                              required
+                            />
+                          </div>
+                        </>
+                      )}
                     </div>
                   )}
                 </div>

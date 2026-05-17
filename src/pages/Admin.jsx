@@ -49,6 +49,39 @@ export default function Admin() {
     } else if (currentPath === '/admin/customers') {
       fetchCustomers();
     }
+
+    // Set up Supabase Realtime Postgres Changes Channel
+    const realtimeChannel = supabase
+      .channel('orders_realtime_channel')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'orders' },
+        (payload) => {
+          const newOrder = payload.new;
+          
+          // Prepend beautiful notification alert
+          setNotifications(prev => [
+            {
+              id: Date.now(),
+              text: `🔔 New Order Placed! Amount Billed: $${Number(newOrder.total_amount || newOrder.subtotal).toFixed(2)} (${newOrder.payment_method || 'COD'})`,
+              time: "Just now",
+              unread: true
+            },
+            ...prev
+          ]);
+
+          // Refresh database states and statistics automatically!
+          fetchDashboardMetrics();
+          if (currentPath === '/admin/orders') {
+            fetchOrders();
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(realtimeChannel);
+    };
   }, [currentPath]);
 
   const fetchDashboardMetrics = async () => {
