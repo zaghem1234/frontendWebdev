@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Mail, MapPin, Phone, ArrowUpRight } from 'lucide-react';
 
 export default function Footer() {
+  const googleMapsUrl = localStorage.getItem('plant_beauty_google_maps') || 'https://maps.google.com/?q=Islamabad,+Pakistan';
+
   return (
     <footer className="w-full py-16 bg-surface-container-lowest border-t border-outline-variant/30 mt-auto">
       <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -67,7 +69,7 @@ export default function Footer() {
             Come visit our tropical garden nursery, explore healthy plants in person, and chat with our head botanist!
           </p>
           <a 
-            href="https://maps.google.com/?q=Islamabad,+Pakistan" 
+            href={googleMapsUrl}
             target="_blank" 
             rel="noopener noreferrer" 
             className="inline-flex items-center gap-2 bg-primary text-on-primary font-label-md text-xs px-5 py-3 rounded-full hover:shadow-lg transition-all hover:translate-y-[-1px] active:translate-y-0"

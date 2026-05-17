@@ -39,6 +39,7 @@ export default function Admin() {
   const [whatsappNum, setWhatsappNum] = useState(localStorage.getItem('plant_beauty_whatsapp') || '+1234567890');
   const [easypaisaAccount, setEasypaisaAccount] = useState(localStorage.getItem('plant_beauty_easypaisa') || '0300-1234567');
   const [jazzcashAccount, setJazzcashAccount] = useState(localStorage.getItem('plant_beauty_jazzcash') || '0300-1234567');
+  const [googleMapsUrl, setGoogleMapsUrl] = useState(localStorage.getItem('plant_beauty_google_maps') || 'https://maps.google.com/?q=Islamabad,+Pakistan');
   const [saveSuccess, setSaveSuccess] = useState(false);
 
   useEffect(() => {
@@ -167,6 +168,7 @@ export default function Admin() {
     localStorage.setItem('plant_beauty_whatsapp', whatsappNum);
     localStorage.setItem('plant_beauty_easypaisa', easypaisaAccount);
     localStorage.setItem('plant_beauty_jazzcash', jazzcashAccount);
+    localStorage.setItem('plant_beauty_google_maps', googleMapsUrl);
     setSaveSuccess(true);
     // Add custom notification
     setNotifications(prev => [
@@ -492,6 +494,21 @@ export default function Admin() {
                     className="w-full px-4 py-3 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:outline-none focus:border-primary"
                     required
                   />
+                </div>
+
+                <div>
+                  <label className="block text-xs uppercase font-label-md text-on-surface-variant tracking-wider mb-2">Google Maps Location Link</label>
+                  <input 
+                    type="url" 
+                    value={googleMapsUrl}
+                    onChange={(e) => setGoogleMapsUrl(e.target.value)}
+                    placeholder="https://maps.google.com/?q=Islamabad,+Pakistan"
+                    className="w-full px-4 py-3 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:outline-none focus:border-primary"
+                    required
+                  />
+                  <span className="text-[11px] text-on-surface-variant/70 block mt-1">
+                    Enter the URL from Google Maps for your custom nursery location (e.g. share links, place URLs or coordinates).
+                  </span>
                 </div>
 
                 <div className="flex gap-4 pt-4">
