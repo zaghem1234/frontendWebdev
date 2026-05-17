@@ -2,10 +2,17 @@ import React from 'react';
 import SideNavBar from '../components/SideNavBar';
 import AdminInventoryTable from '../components/AdminInventoryTable';
 import { useAuthStore } from '../store/useAuthStore';
+import { useNavigate } from 'react-router-dom';
 import { Bell } from 'lucide-react';
 
 export default function Admin() {
-  const { profile } = useAuthStore();
+  const { profile, signOut } = useAuthStore();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/');
+  };
 
   return (
     <div className="bg-background text-on-surface font-body-md overflow-x-hidden flex min-h-screen">
@@ -32,7 +39,7 @@ export default function Admin() {
             <div className="flex items-center gap-3 pl-6 border-l border-outline-variant">
               <div className="text-right hidden sm:block">
                 <p className="font-label-md text-label-md text-on-surface">{profile?.full_name || 'Admin User'}</p>
-                <p className="text-xs text-on-surface-variant">System Administrator</p>
+                <button onClick={handleLogout} className="text-xs text-error hover:underline block w-full text-right font-medium">Log Out</button>
               </div>
               <img 
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl8wTpQtDt8ZpffPoarlUIjjFg68vShta8YWS0DgyduUcta2C_8TUKjwTBGLOMsA2J8y3iznsf7resF4SU_xvDU9kd2lZnQGGqUsO8bOmxj3euSs-jpxE0kOwpHvxnz2Xl0frRMNl05I9zDWASjmxswMngiC-rpp0czDJ6ELe0uCk_r5o8aLRgNQ5FyW3-G96uCl_5ohnTHHDxy7GlLzdq-IWuEI9w_5LqUWvyByOyGOIougbB4-_ZeNpzjQqYZ2gWP8C8Vtd4Px8" 
