@@ -34,9 +34,11 @@ export default function Admin() {
   const [customers, setCustomers] = useState([]);
   const [loadingDb, setLoadingDb] = useState(false);
 
-  // Settings state (WhatsApp number, promo text)
-  const [promoText, setPromoText] = useState('🚚 Free delivery on all orders above $150!');
-  const [whatsappNum, setWhatsappNum] = useState('+1234567890');
+  // Settings state loaded from localStorage
+  const [promoText, setPromoText] = useState(localStorage.getItem('plant_beauty_promo') || '🚚 Free delivery on all orders above $150!');
+  const [whatsappNum, setWhatsappNum] = useState(localStorage.getItem('plant_beauty_whatsapp') || '+1234567890');
+  const [easypaisaAccount, setEasypaisaAccount] = useState(localStorage.getItem('plant_beauty_easypaisa') || '0300-1234567');
+  const [jazzcashAccount, setJazzcashAccount] = useState(localStorage.getItem('plant_beauty_jazzcash') || '0300-1234567');
   const [saveSuccess, setSaveSuccess] = useState(false);
 
   useEffect(() => {
@@ -161,6 +163,10 @@ export default function Admin() {
 
   const handleSaveSettings = (e) => {
     e.preventDefault();
+    localStorage.setItem('plant_beauty_promo', promoText);
+    localStorage.setItem('plant_beauty_whatsapp', whatsappNum);
+    localStorage.setItem('plant_beauty_easypaisa', easypaisaAccount);
+    localStorage.setItem('plant_beauty_jazzcash', jazzcashAccount);
     setSaveSuccess(true);
     // Add custom notification
     setNotifications(prev => [
@@ -461,6 +467,28 @@ export default function Admin() {
                     type="text" 
                     value={whatsappNum}
                     onChange={(e) => setWhatsappNum(e.target.value)}
+                    className="w-full px-4 py-3 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:outline-none focus:border-primary"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs uppercase font-label-md text-on-surface-variant tracking-wider mb-2">EasyPaisa Account Number</label>
+                  <input 
+                    type="text" 
+                    value={easypaisaAccount}
+                    onChange={(e) => setEasypaisaAccount(e.target.value)}
+                    className="w-full px-4 py-3 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:outline-none focus:border-primary"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs uppercase font-label-md text-on-surface-variant tracking-wider mb-2">JazzCash Account Number</label>
+                  <input 
+                    type="text" 
+                    value={jazzcashAccount}
+                    onChange={(e) => setJazzcashAccount(e.target.value)}
                     className="w-full px-4 py-3 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:outline-none focus:border-primary"
                     required
                   />

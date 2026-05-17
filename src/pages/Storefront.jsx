@@ -6,11 +6,14 @@ import TopNavBar from '../components/TopNavBar';
 import CheckoutDrawer from '../components/CheckoutDrawer';
 import WhatsAppButton from '../components/WhatsAppButton';
 import PromoPopup from '../components/PromoPopup';
+import Footer from '../components/Footer';
+import { Plus, Minus } from 'lucide-react';
 
 const POT_SIZES = ['6"', '10"', '14"'];
 
 function PlantCard({ plant, onAddToCart }) {
   const [selectedPotSize, setSelectedPotSize] = useState(POT_SIZES[0]);
+  const [quantity, setQuantity] = useState(1);
 
   return (
     <div className="glass-card rounded-2xl overflow-hidden long-shadow flex flex-col group">
@@ -60,8 +63,34 @@ function PlantCard({ plant, onAddToCart }) {
           </div>
         </div>
 
+        {/* Quantity Selector */}
+        <div className="mb-5">
+          <span className="font-label-md text-on-surface text-[11px] uppercase block mb-2">Quantity</span>
+          <div className="flex items-center gap-3 border border-outline-variant/60 rounded-xl px-3 py-1.5 max-w-[120px]">
+            <button
+              onClick={() => setQuantity(q => Math.max(1, q - 1))}
+              className="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center"
+            >
+              <Minus className="w-3.5 h-3.5" />
+            </button>
+            <input
+              type="number"
+              min="1"
+              value={quantity}
+              onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+              className="w-8 text-center font-label-md text-xs focus:outline-none bg-transparent"
+            />
+            <button
+              onClick={() => setQuantity(q => q + 1)}
+              className="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center"
+            >
+              <Plus className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+
         <button
-          onClick={() => onAddToCart(plant, selectedPotSize)}
+          onClick={() => onAddToCart(plant, selectedPotSize, quantity)}
           disabled={plant.stock_count === 0}
           className="w-full bg-primary text-on-primary py-3 rounded-full font-label-md flex items-center justify-center gap-2 hover:shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
         >
@@ -74,7 +103,7 @@ function PlantCard({ plant, onAddToCart }) {
 }
 
 export default function Storefront() {
-  const { addItem } = useCartStore();
+  const { addItem, searchQuery } = useCartStore();
   const [plants, setPlants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -100,19 +129,24 @@ export default function Storefront() {
     fetchPlants();
   }, []);
 
-  const handleAddToCart = (plant, potSize) => {
+  const handleAddToCart = (plant, potSize, qty = 1) => {
     addItem({
       id: plant.id,
       name: plant.name,
       price: Number(plant.price),
       image_url: plant.image_url,
       potSize,
-      quantity: 1,
+      quantity: Number(qty),
     });
   };
 
   const categories = ['All', ...new Set(plants.map((p) => p.category).filter(Boolean))];
-  const filteredPlants = activeCategory === 'All' ? plants : plants.filter((p) => p.category === activeCategory);
+  const filteredPlants = plants.filter((p) => {
+    const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
+    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          (p.description && p.description.toLowerCase().includes(searchQuery.toLowerCase()));
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -199,21 +233,8 @@ export default function Storefront() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full py-12 bg-surface-container-low border-t border-outline-variant mt-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center px-margin-desktop max-w-container-max mx-auto gap-8">
-          <div className="flex flex-col items-center md:items-start">
-            <span className="font-headline-md text-headline-md text-primary mb-2">Plant Beauty</span>
-            <p className="font-body-md text-on-surface-variant text-center md:text-left">© 2025 Plant Beauty. Nurturing your indoor forest.</p>
-          </div>
-          <div className="flex gap-6">
-            <Link to="#" className="text-on-surface-variant hover:underline hover:text-primary transition-colors font-label-md">Privacy Policy</Link>
-            <Link to="#" className="text-on-surface-variant hover:underline hover:text-primary transition-colors font-label-md">Shipping Info</Link>
-            <Link to="#" className="text-on-surface-variant hover:underline hover:text-primary transition-colors font-label-md">Returns</Link>
-            <Link to="#" className="text-on-surface-variant hover:underline hover:text-primary transition-colors font-label-md">Contact</Link>
-          </div>
-        </div>
-      </footer>
+      {/* Shared Footer component */}
+      <Footer />
     </div>
   );
 }

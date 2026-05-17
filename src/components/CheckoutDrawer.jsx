@@ -154,7 +154,13 @@ export default function CheckoutDrawer() {
                           >
                             <Minus className="w-3 h-3" />
                           </button>
-                          <span className="font-label-md text-[12px]">{item.quantity}</span>
+                          <input 
+                            type="number"
+                            min="1"
+                            value={item.quantity}
+                            onChange={(e) => updateQuantity(item.id, item.potSize, parseInt(e.target.value) || 1)}
+                            className="w-8 text-center font-label-md text-[12px] bg-transparent focus:outline-none"
+                          />
                           <button 
                             onClick={() => updateQuantity(item.id, item.potSize, item.quantity + 1)}
                             className="text-on-surface-variant hover:text-primary"
@@ -327,7 +333,7 @@ export default function CheckoutDrawer() {
                         To pay via <strong>{paymentMethod}</strong>, please transfer the exact bill amount <strong>${totalAmount.toFixed(2)}</strong> to our account:
                       </p>
                       <div className="bg-white/60 p-2.5 rounded-lg border border-outline-variant/30 text-xs font-mono text-center">
-                        <div>Account ID: <strong>0300-1234567</strong></div>
+                        <div>Account ID: <strong>{paymentMethod === 'EasyPaisa' ? (localStorage.getItem('plant_beauty_easypaisa') || '0300-1234567') : (localStorage.getItem('plant_beauty_jazzcash') || '0300-1234567')}</strong></div>
                         <div className="text-[10px] mt-0.5 text-on-surface-variant">Name: Plant Beauty Boutique</div>
                       </div>
                       <div>

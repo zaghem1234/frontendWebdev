@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCartStore } from '../store/useCartStore';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 export default function TopNavBar() {
-  const { openCart, cartItems } = useCartStore();
+  const { openCart, cartItems, searchQuery, setSearchQuery, openAccount } = useCartStore();
   const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  
+  const [showSearch, setShowSearch] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleSearchChange = (e) => {
+    const val = e.target.value;
+    setSearchQuery(val);
+    
+    // Auto redirect to shop page if they start searching on another page
+    if (location.pathname !== '/' && val.trim() !== '') {
+      navigate('/');
+    }
+  };
 
   return (
     <nav className="fixed top-0 w-full z-40 bg-surface/80 backdrop-blur-md border-b border-white/20 shadow-sm transition-colors duration-300">
@@ -20,7 +34,24 @@ export default function TopNavBar() {
         </div>
         
         <div className="flex items-center gap-4">
-          <button className="material-symbols-outlined text-primary p-2 rounded-full hover:bg-black/5 transition-colors">search</button>
+          {/* Slide-out Search Input */}
+          <div className="flex items-center gap-2 relative">
+            {showSearch && (
+              <input
+                type="text"
+                placeholder="Search plants..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className="px-3 py-1 bg-surface-container border border-outline-variant/60 rounded-full text-xs focus:outline-none focus:border-primary w-32 sm:w-48 bg-white/70 animate-in slide-in-from-right duration-200"
+              />
+            )}
+            <button 
+              onClick={() => setShowSearch(!showSearch)} 
+              className="material-symbols-outlined text-primary p-2 rounded-full hover:bg-black/5 transition-colors"
+            >
+              {showSearch ? 'close' : 'search'}
+            </button>
+          </div>
           
           <button 
             onClick={openCart}
@@ -34,7 +65,12 @@ export default function TopNavBar() {
             )}
           </button>
           
-          <Link to="/admin" className="material-symbols-outlined text-primary p-2 rounded-full hover:bg-black/5 transition-colors">person</Link>
+          <button 
+            onClick={openAccount}
+            className="material-symbols-outlined text-primary p-2 rounded-full hover:bg-black/5 transition-colors flex items-center justify-center"
+          >
+            person
+          </button>
         </div>
       </div>
     </nav>

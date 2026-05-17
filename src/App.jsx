@@ -6,10 +6,12 @@ import AdminLogin from './pages/AdminLogin';
 import CareGuide from './pages/CareGuide';
 import OurStory from './pages/OurStory';
 import ProtectedRoute from './components/ProtectedRoute';
+import AccountModal from './components/AccountModal';
 
 function App() {
   return (
     <BrowserRouter>
+      <AccountModal />
       <Routes>
         <Route path="/" element={<Storefront />} />
         <Route path="/care-guide" element={<CareGuide />} />

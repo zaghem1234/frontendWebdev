@@ -27,3 +27,7 @@ CREATE POLICY "Allow public select on orders"
 
 CREATE POLICY "Allow public select on order_items" 
     ON order_items FOR SELECT USING (true);
+
+-- 4. Adjust Profiles RLS to allow signup registrations
+CREATE POLICY "Users can insert own profile" 
+    ON profiles FOR INSERT WITH CHECK (auth.uid() = id);
