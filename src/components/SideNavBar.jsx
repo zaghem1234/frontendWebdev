@@ -24,8 +24,8 @@ export default function SideNavBar() {
       <div className="px-6 mb-10 flex items-center gap-4">
         <span className="material-symbols-outlined text-secondary-fixed text-headline-md">eco</span>
         <div className="opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-          <h1 className="font-headline-md text-headline-md text-secondary-fixed">Verdant Admin</h1>
-          <p className="font-label-md text-[10px] text-on-surface-variant leading-tight">Management Portal</p>
+          <h1 className="font-headline-md text-headline-md text-secondary-fixed">Plant Beauty</h1>
+          <p className="font-label-md text-[10px] text-on-surface-variant leading-tight">Admin Portal</p>
         </div>
       </div>
       
