@@ -122,8 +122,8 @@ export default function CareGuide() {
       <footer className="w-full py-12 bg-surface-container-low border-t border-outline-variant mt-auto">
         <div className="flex flex-col md:flex-row justify-between items-center px-margin-desktop max-w-container-max mx-auto gap-8">
           <div className="flex flex-col items-center md:items-start">
-            <span className="font-headline-md text-headline-md text-primary mb-2">Verdant Oasis</span>
-            <p className="font-body-md text-on-surface-variant text-center md:text-left">© 2025 Verdant Oasis. Nurturing your indoor forest.</p>
+            <span className="font-headline-md text-headline-md text-primary mb-2">Plant Beauty</span>
+            <p className="font-body-md text-on-surface-variant text-center md:text-left">© 2025 Plant Beauty. Nurturing your indoor forest.</p>
           </div>
           <div className="flex gap-6">
             <a href="#" className="text-on-surface-variant hover:underline hover:text-primary transition-colors font-label-md">Privacy Policy</a>

@@ -38,7 +38,7 @@ export default function OurStory() {
           </span>
           <h1 className="font-headline-xl text-headline-xl text-primary mb-4">Nurturing Your Digital Forest</h1>
           <p className="text-on-surface-variant font-body-md leading-relaxed">
-            Verdant Oasis was founded in 2024 with a simple dream: to bridge the gap between human indoor spaces and the serene wisdom of old-growth tropical forests.
+            Plant Beauty was founded in 2024 with a simple dream: to bridge the gap between human indoor spaces and the serene wisdom of old-growth tropical forests.
           </p>
         </section>
 
@@ -52,7 +52,7 @@ export default function OurStory() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-8">
               <div>
-                <p className="text-xs font-label-md text-secondary-fixed uppercase tracking-wider mb-1">Verdant Oasis California</p>
+                <p className="text-xs font-label-md text-secondary-fixed uppercase tracking-wider mb-1">Plant Beauty California</p>
                 <h3 className="text-headline-md font-headline-md text-on-primary">The Mother Greenhouse</h3>
               </div>
             </div>
@@ -64,7 +64,7 @@ export default function OurStory() {
               We realized that buying plants online is often stressful. Will it survive the dark box? Will it look like the photo?
             </p>
             <p className="text-on-surface-variant font-body-md leading-relaxed">
-              At Verdant Oasis, we redesigned the plant-parenting pipeline. We cultivate plants with extra love, pack them with custom-engineered insulation, and provide direct expert horticulturist consultation to every single order.
+              At Plant Beauty, we redesigned the plant-parenting pipeline. We cultivate plants with extra love, pack them with custom-engineered insulation, and provide direct expert horticulturist consultation to every single order.
             </p>
           </div>
         </section>
@@ -90,8 +90,8 @@ export default function OurStory() {
       <footer className="w-full py-12 bg-surface-container-low border-t border-outline-variant mt-auto">
         <div className="flex flex-col md:flex-row justify-between items-center px-margin-desktop max-w-container-max mx-auto gap-8">
           <div className="flex flex-col items-center md:items-start">
-            <span className="font-headline-md text-headline-md text-primary mb-2">Verdant Oasis</span>
-            <p className="font-body-md text-on-surface-variant text-center md:text-left">© 2025 Verdant Oasis. Nurturing your indoor forest.</p>
+            <span className="font-headline-md text-headline-md text-primary mb-2">Plant Beauty</span>
+            <p className="font-body-md text-on-surface-variant text-center md:text-left">© 2025 Plant Beauty. Nurturing your indoor forest.</p>
           </div>
           <div className="flex gap-6">
             <a href="#" className="text-on-surface-variant hover:underline hover:text-primary transition-colors font-label-md">Privacy Policy</a>
